@@ -10,8 +10,8 @@ class Lores:
         self.height = 40
         self.width = 40
         self.clear()
-        self.pixel = '    '
-        self.color = 0.0
+        self.pixel = '   '
+        self._color = 0.0
         self.gr_mode()
 
     def gr_mode(self):
@@ -20,6 +20,28 @@ class Lores:
         :return:
         '''
         print(self.t.move(self.height - 1))
+
+    def color(self, color: int):
+        self._color = float(color)
+
+    def plot(self, x: int, y: int):
+        self.matrix[x,y] = self._color
+
+    def hlin(self, x1: int, x2: int, y: int):
+        '''
+        Equivalent of HLIN x1,x2 at y.  Draws a horizontal line
+        :param x1:
+        :param x2:
+        :param y:
+        :return:
+        '''
+        self.matrix[x1:x2,y] = self._color
+
+    def vlin(self, y1: int, y2: int, x: int):
+        self.matrix[x, y1:y2] = self._color
+
+    def scrn(self, x: int, y: int):
+        return int(self.matrix[x,y])
 
     def randomize(self):
         '''
@@ -51,15 +73,20 @@ class Lores:
 
 
 lores = Lores()
-lores.randomize()
+# lores.randomize()
+lores.color(1)
+lores.plot(5,10)
+lores.hlin(0, 40, 3)
+lores.vlin(0, 40, 2)
 lores.render()
 
 print("hi")
 i = 0
 while True:
-    lores.randomize()
-    lores.render()
+
+    time.sleep(2)
     print(i)
     i += 1
-    time.sleep(2)
+    # lores.randomize()
+    lores.render()
 
